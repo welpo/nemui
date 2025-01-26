@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="base" content="/">
+    <meta name="color-scheme" content="light dark">
+    <meta name="theme-color" content="#614088" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#8863b6" media="(prefers-color-scheme: dark)">
+
+    <title>nemui • Sleep Schedule Planner</title>
+
+    <!-- CSP -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' cdn.jsdelivr.net;
+        style-src 'self' cdn.jsdelivr.net;
+        connect-src 'self';
+        img-src 'self' data:;
+        font-src 'self' data:;
+        manifest-src 'self';
+        worker-src 'self';
+        object-src 'none';
+        base-uri 'self';
+        form-action 'self';
+    ">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" href="favicon.ico" />
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" sizes="16x16">
+    <link rel="icon" type="image/png" href="/favicon-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/favicon-48x48.png" sizes="48x48">
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96">
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="apple-mobile-web-app-title" content="nemui" />
+
+    <link rel="stylesheet" href="styles.css?h=ee9a54fa">
+</head>
+
+<body>
+    <main class="sleep-fixer">
+
+        <header class="intro">
+            <h1>nemui</h1>
+            <img id="headerLogo" src="logo_small.webp" alt="nemui logo" class="logo">
+            <p class="subtitle">Ease into your new sleep routine with a daily plan.</p>
+        </header>
+
+        <!-- Navigation wizard -->
+        <nav class="wizard" aria-label="Progress">
+            <ol class="wizard-list">
+                <div class="progress-bar">
+                    <div class="progress-bar-bg"></div>
+                    <div class="progress-bar-fill"></div>
+                </div>
+
+                <li class="wizard-step">
+                    <button class="step-button current" aria-current="step">
+                        <span class="sr-only">Step 1:</span>
+                        <span class="step-number">1</span>
+                        <span class="step-label">Current schedule</span>
+                    </button>
+                </li>
+
+                <li class="wizard-step">
+                    <button class="step-button">
+                        <span class="sr-only">Step 2:</span>
+                        <span class="step-number">2</span>
+                        <span class="step-label">Desired schedule</span>
+                    </button>
+                </li>
+
+                <li class="wizard-step">
+                    <button class="step-button">
+                        <span class="sr-only">Step 3:</span>
+                        <span class="step-number">3</span>
+                        <span class="step-label">Target date</span>
+                    </button>
+                </li>
+
+                <li class="wizard-step">
+                    <button class="step-button">
+                        <span class="sr-only">Step 4:</span>
+                        <span class="step-number">4</span>
+                        <span class="step-label">Your plan</span>
+                    </button>
+                </li>
+            </ol>
+        </nav>
+
+        <noscript>
+            <div class="js-warning">
+                <p>( •́ _ •̀) Oh no! This sleep calculator needs JavaScript to work.</p>
+                <p>Enable JavaScript to plan your sleep schedule.</p>
+                <p>See the source code on <a href="https://github.com/welpo/nemui">GitHub</a>.</p>
+            </div>
+            <noscript><link rel="stylesheet" href="noscript.css?h=eea8c11f"></noscript>
+        </noscript>
+
+        <div class="steps-container">
+            <!-- Step 1: Current Schedule -->
+            <section class="step">
+                <div class="container" id="currentScheduleContainer">
+                    <div class="step-header">
+                        <span class="step-number">1</span>
+                        <h2>What's your current schedule?</h2>
+                    </div>
+                    <div class="clock-wrapper"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="button next-button" aria-label="Next step">Next</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 2: Target Schedule -->
+            <section class="step">
+                <div class="container" id="goalScheduleContainer">
+                    <div class="step-header">
+                        <span class="step-number">2</span>
+                        <h2>What's your desired schedule?</h2>
+                    </div>
+
+                    <div class="sleep-goal">
+                        <label>I want to sleep for</label>
+                        <div class="goal-inputs">
+                            <div class="input-group">
+                                <input type="number" id="goalHours" min="4" max="12" value="8" inputmode="numeric"
+                                    pattern="[0-9]*" class="time-input">
+                                <span>hr</span>
+                            </div>
+                            <div class="input-group">
+                                <input type="number" id="goalMinutes" min="0" max="59" value="0" step="10"
+                                    inputmode="numeric" pattern="[0-9]*" class="time-input">
+                                <span>min</span>
+                            </div>
+                        </div>
+                        <p class="helper-text">Most adults need 7-9 hours of sleep.</p>
+                    </div>
+                    <div class="clock-wrapper"></div>
+                    <div class="step-navigation">
+                        <button type="button" class="button prev-button" aria-label="Previous step">Previous</button>
+                        <button type="button" class="button next-button" aria-label="Next step">Next</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 3: Target Date -->
+            <section class="step">
+                <div class="container target-date">
+                    <div class="step-header">
+                        <span class="step-number">3</span>
+                        <h2>What's your target date?</h2>
+                    </div>
+
+                    <div class="date-picker-container">
+                        <div class="date-input-wrapper">
+                            <label for="targetDate">This is the day you'll wake up at your goal time.</label>
+                            <div class="help-wrapper">
+                                <p class="helper-text" id="scheduleTip">Aim for at least two weeks to adjust gradually.
+                                </p>
+                                <span class="icon help-icon"></span>
+                                <div class="info-popup">
+                                    For a smooth transition, shift your sleep schedule by 15-30 minutes each day.
+                                </div>
+                            </div>
+                        </div>
+                        <input type="date" id="targetDate" name="targetDate" required>
+                    </div>
+
+                    <div class="helper-text" id="datePickerHelp">
+                        <p class="adjustment-message" id="calendarAdjustmentMessage"></p>
+                    </div>
+
+                    <div class="step-navigation">
+                        <button type="button" class="button prev-button" aria-label="Previous step">Previous</button>
+                        <button type="button" class="button next-button" aria-label="Next step">See my plan</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Step 4: Results -->
+            <section class="step results">
+                <div class="container">
+                    <div class="step-header">
+                        <span class="step-number">4</span>
+                        <h2>Your personalised sleep plan</h2>
+                    </div>
+
+                    <p id="scheduleHelp" class="helper-text">Tip: visit this page daily to see your updated schedule.</p>
+
+                    <div class="help-wrapper calendar-download">
+                        <button type="button" class="button" id="downloadCalendarButton">Add to calendar</button>
+                        <span class="icon help-icon"></span>
+                        <div class="info-popup">
+                            Downloads a Calendar (.ics) file with one event per day. These events show when to sleep and
+                            wake up each day. Works with Apple Calendar, Google Calendar, Outlook…
+                        </div>
+                    </div>
+
+                    <div id="lastNightSchedule" class="schedule-section">
+                    </div>
+
+                    <div id="tonightSchedule" class="schedule-section">
+                    </div>
+
+                    <div id="upcomingSchedule" class="schedule-section">
+                    </div>
+                    <div class="step-navigation">
+                        <button type="button" class="button prev-button" aria-label="Previous step">Previous</button>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <footer class="app-footer" role="contentinfo">
+            <div class="footer-content">
+                <p class="footer-text">
+                    <span>Made with <span class="emoji" role="img" aria-label="sleepy face">😴</span> by <a href="https://osc.garden" class="footer-link" rel="author" lang="es">Óscar</a></span>
+                    <span class="separator" aria-hidden="true">•</span>
+                    <a href="https://github.com/welpo/nemui" class="footer-link" rel="source">View source<span class="no-js"> first</span></a>
+                    <span class="separator js" aria-hidden="true">•</span>
+                    <span title="Based on your device settings" class="js">Timezone: <span id="userTimezone" class="user-timezone"></span></span>
+                </p>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/file-saver/dist/FileSaver.min.js"></script>
+    <script src="app.js?h=1a4f5e71"></script>
+</body>
+
+</html>

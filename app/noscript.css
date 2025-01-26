@@ -1,0 +1,23 @@
+.js {
+    display: none !important;
+}
+
+.no-js {
+    display: inline !important;
+}
+
+.js-warning {
+    position: block;
+    margin: var(--spacing-md);
+    box-shadow: 0 2px 8px var(--shadow-color);
+    border: 1px solid var(--warning-color);
+    border-radius: var(--radius-lg);
+    background-color: var(--background-secondary);
+    padding: var(--spacing-md);
+    max-width: calc(var(--container-width) * 0.8);
+    color: var(--text-primary);
+    font-size: var(--font-size-md);
+    line-height: 1.4;
+    font-family: var(--sans-serif);
+    text-align: center;
+}

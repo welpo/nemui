@@ -1,0 +1,37 @@
+name: "Feature request"
+description: "Share your ideas for nemui"
+labels: ["enhancement"]
+body:
+- type: markdown
+  attributes:
+    value: |
+      Thanks for sharing your idea to make nemui better!
+
+- type: textarea
+  attributes:
+    label: "What's your idea?"
+    description: "Tell us about the feature you'd like to see!"
+    placeholder: "Example: It would be great if nemui could support different timezones for current and goal schedule, to minimise jet lag"
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: "Why would this be helpful?"
+    description: "How would this feature make nemui more useful for you?"
+    placeholder: |
+      Example: This would help me prepare for trips across time zones by gradually
+      adjusting my sleep schedule before traveling, making the transition easier!
+  validations:
+    required: true
+
+- type: textarea
+  attributes:
+    label: "Any specific details?"
+    description: "Optional: Share any other thoughts or suggestions about how this feature could work"
+    placeholder: |
+      Example: Maybe we could input our travel dates and destination timezone, and nemui
+      could calculate the optimal pre-trip sleep schedule adjustments based on
+      direction and number of time zones crossed
+  validations:
+    required: false

@@ -1,0 +1,52 @@
+name: "Report a bug"
+description: "Help make nemui better by reporting an issue"
+labels: ["bug"]
+body:
+- type: textarea
+  attributes:
+      label: "What's happening?"
+      description: "Tell us what's not working right."
+      placeholder: "Example: The clock interface isn't responding, or the schedule isn't saving properly."
+  validations:
+      required: true
+
+- type: textarea
+  attributes:
+      label: "How can we see it too?"
+      description: "What steps should we follow to see the same issue?"
+      placeholder: |
+          1. Open nemui
+          2. Set current sleep schedule...
+          3. Then...
+  validations:
+      required: true
+
+- type: dropdown
+  attributes:
+      label: "Where are you using nemui?"
+      options:
+          - "On my phone"
+          - "On my computer"
+  validations:
+      required: true
+
+- type: input
+  attributes:
+      label: "Which browser are you using?"
+      placeholder: "Example: Chrome, Safari, Firefox"
+  validations:
+      required: true
+
+- type: input
+  attributes:
+      label: "What's your timezone?"
+      description: "This helps us debug DST and time-related issues. You can see this on the bottom right of nemui"
+      placeholder: "Example: Europe/Madrid, America/New_York"
+  validations:
+      required: true
+
+- type: textarea
+  attributes:
+      label: "Anything else we should know?"
+      description: "Optional: Add any other helpful details (sleep schedule, target date...)"
+      required: false
