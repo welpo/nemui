@@ -1071,14 +1071,12 @@ class SleepScheduler {
 
 class DatePicker {
   constructor(currentScheduler, goalScheduler) {
-    this.wasManuallySet = false;
     this.dateInput = document.getElementById("targetDate");
     this.scheduleTip = document.getElementById("scheduleTip");
     this.helpSection = document.getElementById("datePickerHelp");
     this.currentScheduler = currentScheduler;
     this.goalScheduler = goalScheduler;
     this.debouncedSave = debounce(() => this.saveState(), SAVE_DELAY);
-    this.wasManuallySet = false;
     this.loadState();
     this.initializeDatePicker();
     if (!this.dateInput.value) {
@@ -1097,20 +1095,16 @@ class DatePicker {
   showRecommendedDate() {
     const { recommendedDate } = this.calculateRecommendedDate();
     this.dateInput.value = this.formatDate(recommendedDate);
+    this.debouncedSave();
   }
 
-  handleManualDateChange(e) {
-    this.wasManuallySet = true;
+  handleDateChange(e) {
     this.debouncedSave();
     this.updateRecommendationText();
   }
 
   handleScheduleChange() {
-    if (!this.wasManuallySet) {
-      // Only update recommendation if user hasn't explicitly set a date.
-      Storage.save({ targetDate: null });
-      this.showRecommendedDate();
-    }
+    this.showRecommendedDate();
     this.updateRecommendationText();
   }
 
@@ -1233,7 +1227,7 @@ class DatePicker {
       this.handleScheduleChange()
     );
     this.dateInput.addEventListener("change", (e) =>
-      this.handleManualDateChange(e)
+      this.handleDateChange(e)
     );
     this.dateInput.addEventListener("input", (e) => this.validateDate(e));
   }
@@ -1320,7 +1314,6 @@ class DatePicker {
     const state = Storage.get();
     if (state.targetDate) {
       this.dateInput.value = state.targetDate;
-      this.wasManuallySet = true;
     }
   }
 }
